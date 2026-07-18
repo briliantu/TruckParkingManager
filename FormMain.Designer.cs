@@ -8,6 +8,8 @@ namespace TruckParkingManager
         private System.Windows.Forms.Button btnIesire;
         private System.Windows.Forms.DataGridView dgvCamioane;
         private System.Windows.Forms.Label lblTitlu;
+        private System.Windows.Forms.Panel pnlHarta;
+        private System.Windows.Forms.Label lblHarta;
 
         protected override void Dispose(bool disposing)
         {
@@ -25,6 +27,8 @@ namespace TruckParkingManager
             this.btnIesire = new System.Windows.Forms.Button();
             this.dgvCamioane = new System.Windows.Forms.DataGridView();
             this.lblTitlu = new System.Windows.Forms.Label();
+            this.pnlHarta = new System.Windows.Forms.Panel();
+            this.lblHarta = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCamioane)).BeginInit();
             this.SuspendLayout();
             // 
@@ -71,7 +75,7 @@ namespace TruckParkingManager
             this.dgvCamioane.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvCamioane.Location = new System.Drawing.Point(30, 140);
             this.dgvCamioane.Name = "dgvCamioane";
-            this.dgvCamioane.Size = new System.Drawing.Size(720, 280);
+            this.dgvCamioane.Size = new System.Drawing.Size(520, 280);
             this.dgvCamioane.TabIndex = 3;
             // 
             // lblTitlu
@@ -82,14 +86,37 @@ namespace TruckParkingManager
             this.lblTitlu.Name = "lblTitlu";
             this.lblTitlu.Size = new System.Drawing.Size(434, 32);
             this.lblTitlu.TabIndex = 4;
-            this.lblTitlu.Text = "Sistem Control Parcare Companie";
+            this.lblTitlu.Text = "Sistem Control Parcare";
+            // 
+            // lblHarta
+            // 
+            this.lblHarta.AutoSize = true;
+            this.lblHarta.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblHarta.Location = new System.Drawing.Point(570, 118);
+            this.lblHarta.Name = "lblHarta";
+            this.lblHarta.Size = new System.Drawing.Size(80, 18);
+            this.lblHarta.TabIndex = 5;
+            this.lblHarta.Text = "Hartă locuri";
+            // 
+            // pnlHarta
+            // 
+            this.pnlHarta.AutoScroll = true;
+            this.pnlHarta.BackColor = System.Drawing.Color.White;
+            this.pnlHarta.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlHarta.Location = new System.Drawing.Point(570, 140);
+            this.pnlHarta.Name = "pnlHarta";
+            this.pnlHarta.Size = new System.Drawing.Size(150, 280);
+            this.pnlHarta.TabIndex = 6;
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 450);
+            this.ClientSize = new System.Drawing.Size(790, 450);
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Controls.Add(this.lblTitlu);
+            this.Controls.Add(this.lblHarta);
+            this.Controls.Add(this.pnlHarta);
             this.Controls.Add(this.dgvCamioane);
             this.Controls.Add(this.btnIesire);
             this.Controls.Add(this.btnIntrare);
