@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Net.Http;
 using System.Text;
@@ -328,19 +329,29 @@ namespace TruckParkingManager
         }
 
         // --- Implementare #4: buffer offline cu retry real ---
-        // Fiecare linie salvată conține tipul evenimentului + JSON-ul complet al camionului,
-        // nu doar text descriptiv, ca să poată fi retrimisă exact la reconectare.
+        // Format lizibil în Notepad, în loc de JSON brut:
+        //   2026-07-18 14:25:49 | INTRARE | Nr: BN12ABC | Loc: 1 | Intrare: 2026-07-18 14:25:49 | Iesire: - | Durata: -
+        // Păstrăm toate datele necesare ca să putem reconstrui camionul exact la retrimitere.
 
-        private class BufferEntry
-        {
-            public string Tip { get; set; } = "";
-            public Camion? Date { get; set; }
-        }
+        private const string FormatDataOra = "yyyy-MM-dd HH:mm:ss";
 
         private async Task SalvareLocalaFallbackAsync(string tipEveniment, Camion camion)
         {
-            var entry = new BufferEntry { Tip = tipEveniment, Date = camion };
-            string linie = JsonSerializer.Serialize(entry) + Environment.NewLine;
+            string textIesire = camion.DataIesire.HasValue
+                ? camion.DataIesire.Value.ToString(FormatDataOra, CultureInfo.InvariantCulture)
+                : "-";
+
+            string linie = string.Join(" | ", new[]
+            {
+                DateTime.Now.ToString(FormatDataOra, CultureInfo.InvariantCulture),
+                tipEveniment,
+                $"Nr: {camion.NumarInmatriculare}",
+                $"Loc: {camion.NumarLoc}",
+                $"Intrare: {camion.DataIntrare.ToString(FormatDataOra, CultureInfo.InvariantCulture)}",
+                $"Iesire: {textIesire}",
+                $"Durata: {camion.DurataTotala}"
+            }) + Environment.NewLine;
+
             try
             {
                 await File.AppendAllTextAsync(CaleFisierOffline, linie);
@@ -350,6 +361,37 @@ namespace TruckParkingManager
                 // dacă nici scrierea locală nu reușește (disc plin, permisiuni etc.),
                 // nu mai putem face nimic - operatorul a fost deja informat implicit
                 // prin faptul că bariera s-a acționat oricum (offline-first).
+            }
+        }
+
+        // Reconstruiește un Camion + tipul evenimentului dintr-o linie a buffer-ului.
+        // Returnează null dacă linia nu are formatul așteptat (ex. a fost editată manual greșit).
+        private static Camion? ParseazaLinieBuffer(string linie, out string tip)
+        {
+            tip = "";
+            var parti = linie.Split(" | ");
+            if (parti.Length != 7) return null;
+
+            try
+            {
+                tip = parti[1].Trim();
+                string nr = parti[2].Replace("Nr:", "").Trim();
+                int loc = int.Parse(parti[3].Replace("Loc:", "").Trim(), CultureInfo.InvariantCulture);
+                DateTime intrare = DateTime.ParseExact(parti[4].Replace("Intrare:", "").Trim(), FormatDataOra, CultureInfo.InvariantCulture);
+                string textIesire = parti[5].Replace("Iesire:", "").Trim();
+                string durata = parti[6].Replace("Durata:", "").Trim();
+
+                var camion = new Camion(nr, intrare, loc);
+                if (textIesire != "-")
+                {
+                    camion.DataIesire = DateTime.ParseExact(textIesire, FormatDataOra, CultureInfo.InvariantCulture);
+                    camion.DurataTotala = durata;
+                }
+                return camion;
+            }
+            catch
+            {
+                return null;
             }
         }
 
@@ -381,13 +423,13 @@ namespace TruckParkingManager
                 bool trimisCuSucces = false;
                 try
                 {
-                    var entry = JsonSerializer.Deserialize<BufferEntry>(linie);
-                    if (entry?.Date != null)
+                    var camionReconstruit = ParseazaLinieBuffer(linie, out string tip);
+                    if (camionReconstruit != null)
                     {
-                        string json = JsonSerializer.Serialize(entry.Date);
+                        string json = JsonSerializer.Serialize(camionReconstruit);
                         var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                        HttpResponseMessage response = entry.Tip == "INTRARE"
+                        HttpResponseMessage response = tip == "INTRARE"
                             ? await client.PostAsync($"{ApiUrl}/intrare", content)
                             : await client.PutAsync($"{ApiUrl}/iesire", content);
 
