@@ -21,14 +21,38 @@ namespace TruckParkingManager
         private static readonly string ApiUrl = Config.ApiUrl;
         private readonly int CAPACITATE_MAXIMA = Config.CapacitateMaxima;
 
+        // Afișat în bara de titlu, ca operatorul să vadă mereu la ce server e conectat
+        private static readonly string ServerHostInfo = ObtineHostServer(ApiUrl);
+
+        private static string ObtineHostServer(string apiUrl)
+        {
+            try
+            {
+                var uri = new Uri(apiUrl);
+                return uri.IsDefaultPort ? uri.Host : $"{uri.Host}:{uri.Port}";
+            }
+            catch
+            {
+                return "necunoscut";
+            }
+        }
+
         private const string CaleFisierOffline = "offline_buffer.txt";
 
         private List<Camion> listaCamioaneActive = new List<Camion>();
 
-        // Regex permisiv pentru formatul românesc de înmatriculare
-        // (ex: CJ99ABC, B123ABC). Ajustează dacă ai și numere provizorii/altă țară.
-        private static readonly Regex FormatNumarInmatriculare =
-            new Regex(@"^[A-Z]{1,2}\d{2,3}[A-Z]{3}$", RegexOptions.Compiled);
+        // Formate aproximative de înmatriculare pe țară (simplificate, fără toate excepțiile
+        // regionale reale) - ajustează regex-urile dacă ai nevoie de validare mai strictă/exactă.
+        private static readonly Dictionary<string, Regex> FormatePeTara = new()
+        {
+            ["România"] = new Regex(@"^[A-Z]{1,2}\d{2,3}[A-Z]{3}$", RegexOptions.Compiled),
+            ["Spania"] = new Regex(@"^\d{4}[A-Z]{3}$", RegexOptions.Compiled),
+            ["Germania"] = new Regex(@"^[A-ZÄÖÜ]{1,3}[- ]?[A-Z]{1,2}[- ]?\d{1,4}$", RegexOptions.Compiled),
+            ["Italia"] = new Regex(@"^[A-Z]{2}\d{3}[A-Z]{2}$", RegexOptions.Compiled),
+            ["Bulgaria"] = new Regex(@"^[A-Z]{1,2}\d{4}[A-Z]{2}$", RegexOptions.Compiled),
+            ["Turcia"] = new Regex(@"^\d{2}[ ]?[A-Z]{1,3}[ ]?\d{2,4}$", RegexOptions.Compiled),
+            ["Republica Moldova"] = new Regex(@"^[A-Z]{1,2}[ ]?\d{3}[ ]?[A-Z]{2,3}$", RegexOptions.Compiled),
+        };
 
         // Hartă vizuală a locurilor: index 1..CAPACITATE_MAXIMA, 0 neutilizat
         private Panel[] locuriCelule = Array.Empty<Panel>();
@@ -38,6 +62,7 @@ namespace TruckParkingManager
         {
             InitializeComponent();
             client.Timeout = TimeSpan.FromSeconds(8);
+            cmbTara.SelectedIndex = 0;
             ConfigurareTabel();
             ConfigureazaHartaLocuri();
             _ = InitializeazaAsync();
@@ -52,12 +77,13 @@ namespace TruckParkingManager
 
         private void ConfigurareTabel()
         {
-            dgvCamioane.ColumnCount = 5;
+            dgvCamioane.ColumnCount = 6;
             dgvCamioane.Columns[0].Name = "Număr Înmatriculare";
-            dgvCamioane.Columns[1].Name = "Loc Alocat";
-            dgvCamioane.Columns[2].Name = "Dată Intrare";
-            dgvCamioane.Columns[3].Name = "Dată Ieșire";
-            dgvCamioane.Columns[4].Name = "Durată Totală";
+            dgvCamioane.Columns[1].Name = "Țară";
+            dgvCamioane.Columns[2].Name = "Loc Alocat";
+            dgvCamioane.Columns[3].Name = "Dată Intrare";
+            dgvCamioane.Columns[4].Name = "Dată Ieșire";
+            dgvCamioane.Columns[5].Name = "Durată Totală";
             dgvCamioane.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvCamioane.AllowUserToAddRows = false;
             dgvCamioane.ReadOnly = true;
@@ -99,7 +125,7 @@ namespace TruckParkingManager
         private void ActualizeazaAfisajLocuriDisponibile()
         {
             int libere = GetLocuriLibere();
-            this.Text = $"TruckParkingManager - Locuri Libere: {libere} / {CAPACITATE_MAXIMA}";
+            this.Text = $"TruckParkingManager [server: {ServerHostInfo}] - Locuri Libere: {libere} / {CAPACITATE_MAXIMA}";
 
             if (libere <= 0)
             {
@@ -176,13 +202,15 @@ namespace TruckParkingManager
                 return;
             }
 
-            // Implementare #7: validare format. Dacă formatul nu se potrivește,
-            // avertizăm dar lăsăm operatorul să confirme (poate fi un caz special:
-            // număr provizoriu, remorcă, sau vehicul înmatriculat în altă țară).
-            if (!FormatNumarInmatriculare.IsMatch(nrInmatriculare))
+            string tara = cmbTara.SelectedItem?.ToString() ?? "România";
+
+            // Implementare #7: validare format specific țării selectate din dropdown.
+            // Dacă formatul nu se potrivește, avertizăm dar lăsăm operatorul să confirme
+            // (poate fi un caz special: număr provizoriu, remorcă, format regional neacoperit).
+            if (FormatePeTara.TryGetValue(tara, out var formatAsteptat) && !formatAsteptat.IsMatch(nrInmatriculare))
             {
                 var confirmare = MessageBox.Show(
-                    $"Numărul \"{nrInmatriculare}\" nu are un format românesc standard. Continui oricum?",
+                    $"Numărul \"{nrInmatriculare}\" nu are formatul specific pentru {tara}. Continui oricum?",
                     "Format neobișnuit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (confirmare != DialogResult.Yes) return;
             }
@@ -203,7 +231,7 @@ namespace TruckParkingManager
             int locAlocat = GasestePrimulLocLiber();
             if (locAlocat == -1) return;
 
-            var nouCamion = new Camion(nrInmatriculare, DateTime.Now, locAlocat);
+            var nouCamion = new Camion(nrInmatriculare, DateTime.Now, locAlocat, tara);
 
             // Implementare #8: dezactivăm butoanele cât timp așteptăm răspunsul API,
             // ca să nu se poată crea intrări duplicate din click-uri repetate.
@@ -304,7 +332,7 @@ namespace TruckParkingManager
             dgvCamioane.Rows.Clear();
             foreach (var c in listaCamioaneActive)
             {
-                dgvCamioane.Rows.Add(c.NumarInmatriculare, $"Loc {c.NumarLoc}", c.DataIntrare.ToString("g"), c.DataIesire?.ToString("g") ?? "-", c.DurataTotala);
+                dgvCamioane.Rows.Add(c.NumarInmatriculare, c.Tara, $"Loc {c.NumarLoc}", c.DataIntrare.ToString("g"), c.DataIesire?.ToString("g") ?? "-", c.DurataTotala);
             }
         }
 
@@ -346,6 +374,7 @@ namespace TruckParkingManager
                 DateTime.Now.ToString(FormatDataOra, CultureInfo.InvariantCulture),
                 tipEveniment,
                 $"Nr: {camion.NumarInmatriculare}",
+                $"Tara: {camion.Tara}",
                 $"Loc: {camion.NumarLoc}",
                 $"Intrare: {camion.DataIntrare.ToString(FormatDataOra, CultureInfo.InvariantCulture)}",
                 $"Iesire: {textIesire}",
@@ -370,18 +399,19 @@ namespace TruckParkingManager
         {
             tip = "";
             var parti = linie.Split(" | ");
-            if (parti.Length != 7) return null;
+            if (parti.Length != 8) return null;
 
             try
             {
                 tip = parti[1].Trim();
                 string nr = parti[2].Replace("Nr:", "").Trim();
-                int loc = int.Parse(parti[3].Replace("Loc:", "").Trim(), CultureInfo.InvariantCulture);
-                DateTime intrare = DateTime.ParseExact(parti[4].Replace("Intrare:", "").Trim(), FormatDataOra, CultureInfo.InvariantCulture);
-                string textIesire = parti[5].Replace("Iesire:", "").Trim();
-                string durata = parti[6].Replace("Durata:", "").Trim();
+                string tara = parti[3].Replace("Tara:", "").Trim();
+                int loc = int.Parse(parti[4].Replace("Loc:", "").Trim(), CultureInfo.InvariantCulture);
+                DateTime intrare = DateTime.ParseExact(parti[5].Replace("Intrare:", "").Trim(), FormatDataOra, CultureInfo.InvariantCulture);
+                string textIesire = parti[6].Replace("Iesire:", "").Trim();
+                string durata = parti[7].Replace("Durata:", "").Trim();
 
-                var camion = new Camion(nr, intrare, loc);
+                var camion = new Camion(nr, intrare, loc, tara);
                 if (textIesire != "-")
                 {
                     camion.DataIesire = DateTime.ParseExact(textIesire, FormatDataOra, CultureInfo.InvariantCulture);

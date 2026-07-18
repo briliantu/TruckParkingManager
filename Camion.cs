@@ -5,14 +5,16 @@ namespace TruckParkingManager
     public class Camion
     {
         public string NumarInmatriculare { get; set; }
+        public string Tara { get; set; }
         public DateTime DataIntrare { get; set; }
         public DateTime? DataIesire { get; set; }
         public string DurataTotala { get; set; }
         public int NumarLoc { get; set; }
 
-        public Camion(string numar, DateTime intrare, int numarLoc)
+        public Camion(string numar, DateTime intrare, int numarLoc, string tara = "România")
         {
             NumarInmatriculare = numar;
+            Tara = tara;
             DataIntrare = intrare;
             DataIesire = null;
             DurataTotala = "-";

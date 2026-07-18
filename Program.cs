@@ -5,9 +5,9 @@ namespace TruckParkingManager
 {
     static class Program
     {
-        /// <summary>
+        
         /// Punctul principal de intrare pentru aplicație.
-        /// </summary>
+       
         [STAThread]
         static void Main()
         {
