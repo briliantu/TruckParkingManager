@@ -4,6 +4,7 @@ using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -12,23 +13,33 @@ namespace TruckParkingManager
     public partial class FormMain : Form
     {
         private static readonly HttpClient client = new HttpClient();
-        
-        // Modifică aici cu URL-ul serverului companiei tale
-        private const string ApiUrl = "https://api.compania-ta.ro/parcare";
+        private static readonly ConfigurareApp Config = ConfigurareApp.Incarca();
+
+        // Citite acum din appsettings.json (implementare #5) - nu mai necesită recompilare
+        private static readonly string ApiUrl = Config.ApiUrl;
+        private readonly int CAPACITATE_MAXIMA = Config.CapacitateMaxima;
+
         private const string CaleFisierOffline = "offline_buffer.txt";
-        
+
         private List<Camion> listaCamioaneActive = new List<Camion>();
 
-        // CONFIGURARE CAPACITATE PARCARE
-        private const int CAPACITATE_MAXIMA = 50; 
-        private bool[] locuriParcare = new bool[CAPACITATE_MAXIMA + 1]; // false = liber, true = ocupat
+        // Regex permisiv pentru formatul românesc de înmatriculare
+        // (ex: CJ99ABC, B123ABC). Ajustează dacă ai și numere provizorii/altă țară.
+        private static readonly Regex FormatNumarInmatriculare =
+            new Regex(@"^[A-Z]{1,2}\d{2,3}[A-Z]{3}$", RegexOptions.Compiled);
 
         public FormMain()
         {
             InitializeComponent();
             client.Timeout = TimeSpan.FromSeconds(8);
             ConfigurareTabel();
-            _ = IncarcaCamioaneActive();
+            _ = InitializeazaAsync();
+        }
+
+        private async Task InitializeazaAsync()
+        {
+            await IncarcaCamioaneActive();
+            await SincronizeazaBufferOfflineAsync();
             ActualizeazaAfisajLocuriDisponibile();
         }
 
@@ -45,21 +56,35 @@ namespace TruckParkingManager
             dgvCamioane.ReadOnly = true;
         }
 
-        private int GetLocuriLibere()
+        // --- Sursă unică de adevăr pentru locurile ocupate (implementare #2) ---
+        // Înainte existau două structuri paralele (bool[] locuriParcare + listaCamioaneActive)
+        // care se puteau desincroniza dacă IncarcaCamioaneActive eșua parțial.
+        // Acum totul se calculează direct din listaCamioaneActive.
+
+        private HashSet<int> GetLocuriOcupate()
         {
-            int ocupate = 0;
+            var ocupate = new HashSet<int>();
             foreach (var camion in listaCamioaneActive)
             {
-                if (camion.DataIesire == null) ocupate++;
+                if (camion.DataIesire == null)
+                {
+                    ocupate.Add(camion.NumarLoc);
+                }
             }
-            return CAPACITATE_MAXIMA - ocupate;
+            return ocupate;
+        }
+
+        private int GetLocuriLibere()
+        {
+            return CAPACITATE_MAXIMA - GetLocuriOcupate().Count;
         }
 
         private int GasestePrimulLocLiber()
         {
+            var ocupate = GetLocuriOcupate();
             for (int i = 1; i <= CAPACITATE_MAXIMA; i++)
             {
-                if (!locuriParcare[i]) return i;
+                if (!ocupate.Contains(i)) return i;
             }
             return -1;
         }
@@ -68,7 +93,7 @@ namespace TruckParkingManager
         {
             int libere = GetLocuriLibere();
             this.Text = $"TruckParkingManager - Locuri Libere: {libere} / {CAPACITATE_MAXIMA}";
-            
+
             if (libere <= 0)
             {
                 btnIntrare.Enabled = false;
@@ -98,6 +123,24 @@ namespace TruckParkingManager
                 return;
             }
 
+            // Implementare #7: validare format. Dacă formatul nu se potrivește,
+            // avertizăm dar lăsăm operatorul să confirme (poate fi un caz special:
+            // număr provizoriu, remorcă, sau vehicul înmatriculat în altă țară).
+            if (!FormatNumarInmatriculare.IsMatch(nrInmatriculare))
+            {
+                var confirmare = MessageBox.Show(
+                    $"Numărul \"{nrInmatriculare}\" nu are un format românesc standard. Continui oricum?",
+                    "Format neobișnuit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (confirmare != DialogResult.Yes) return;
+            }
+
+            // Implementare #1: verificare duplicate - un camion nu poate intra de două ori
+            if (listaCamioaneActive.Exists(c => c.NumarInmatriculare == nrInmatriculare && c.DataIesire == null))
+            {
+                MessageBox.Show("Acest camion este deja înregistrat ca fiind în parcare!", "Duplicat", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             if (GetLocuriLibere() <= 0)
             {
                 MessageBox.Show("Parcarea este plină!", "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
@@ -108,30 +151,39 @@ namespace TruckParkingManager
             if (locAlocat == -1) return;
 
             var nouCamion = new Camion(nrInmatriculare, DateTime.Now, locAlocat);
-            locuriParcare[locAlocat] = true;
 
-            ActioneazaBariera();
-
-            string json = JsonSerializer.Serialize(nouCamion);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
+            // Implementare #8: dezactivăm butoanele cât timp așteptăm răspunsul API,
+            // ca să nu se poată crea intrări duplicate din click-uri repetate.
+            SeteazaButoaneActive(false);
             try
             {
-                HttpResponseMessage response = await client.PostAsync($"{ApiUrl}/intrare", content);
-                if (!response.IsSuccessStatusCode)
-                {
-                    SalvareLocalaFallback(nrInmatriculare, $"INTRARE|LOC:{locAlocat}");
-                }
-            }
-            catch (HttpRequestException)
-            {
-                SalvareLocalaFallback(nrInmatriculare, $"INTRARE|LOC:{locAlocat}");
-            }
+                ActioneazaBariera();
 
-            listaCamioaneActive.Add(nouCamion);
-            ActualizeazaGridVizual();
-            ActualizeazaAfisajLocuriDisponibile();
-            txtNrInmatriculare.Clear();
+                string json = JsonSerializer.Serialize(nouCamion);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                try
+                {
+                    HttpResponseMessage response = await client.PostAsync($"{ApiUrl}/intrare", content);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        await SalvareLocalaFallbackAsync("INTRARE", nouCamion);
+                    }
+                }
+                catch (Exception ex) when (ex is HttpRequestException || ex is TaskCanceledException)
+                {
+                    await SalvareLocalaFallbackAsync("INTRARE", nouCamion);
+                }
+
+                listaCamioaneActive.Add(nouCamion);
+                ActualizeazaGridVizual();
+                ActualizeazaAfisajLocuriDisponibile();
+                txtNrInmatriculare.Clear();
+            }
+            finally
+            {
+                SeteazaButoaneActive(true);
+            }
         }
 
         // BUTONUL IEȘIRE
@@ -147,10 +199,16 @@ namespace TruckParkingManager
 
             Camion camionGasit = listaCamioaneActive.FindLast(c => c.NumarInmatriculare == nrInmatriculare && c.DataIesire == null);
 
-            if (camionGasit != null)
+            if (camionGasit == null)
+            {
+                MessageBox.Show("Camionul nu a fost găsit în parcare.", "Informație", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            SeteazaButoaneActive(false);
+            try
             {
                 camionGasit.FinalizeazaStationare(DateTime.Now);
-                locuriParcare[camionGasit.NumarLoc] = false;
 
                 ActioneazaBariera();
 
@@ -162,22 +220,30 @@ namespace TruckParkingManager
                     HttpResponseMessage response = await client.PutAsync($"{ApiUrl}/iesire", content);
                     if (!response.IsSuccessStatusCode)
                     {
-                        SalvareLocalaFallback(nrInmatriculare, $"IESIRE|LOC_ELIBERAT:{camionGasit.NumarLoc}");
+                        await SalvareLocalaFallbackAsync("IESIRE", camionGasit);
                     }
                 }
-                catch (HttpRequestException)
+                catch (Exception ex) when (ex is HttpRequestException || ex is TaskCanceledException)
                 {
-                    SalvareLocalaFallback(nrInmatriculare, $"IESIRE|LOC_ELIBERAT:{camionGasit.NumarLoc}");
+                    await SalvareLocalaFallbackAsync("IESIRE", camionGasit);
                 }
 
                 ActualizeazaGridVizual();
                 ActualizeazaAfisajLocuriDisponibile();
                 txtNrInmatriculare.Clear();
             }
-            else
+            finally
             {
-                MessageBox.Show("Camionul nu a fost găsit în parcare.", "Informație", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                SeteazaButoaneActive(true);
             }
+        }
+
+        private void SeteazaButoaneActive(bool activ)
+        {
+            btnIesire.Enabled = activ;
+            // btnIntrare respectă în continuare regula "parcare plină" din ActualizeazaAfisajLocuriDisponibile;
+            // aici doar prevenim dublul-click în timpul unui apel în desfășurare.
+            btnIntrare.Enabled = activ && GetLocuriLibere() > 0;
         }
 
         private void ActualizeazaGridVizual()
@@ -198,29 +264,108 @@ namespace TruckParkingManager
                 if (dateSrv != null)
                 {
                     listaCamioaneActive = dateSrv;
-                    Array.Clear(locuriParcare, 0, locuriParcare.Length);
-                    foreach (var c in listaCamioaneActive)
-                    {
-                        if (c.DataIesire == null)
-                        {
-                            locuriParcare[c.NumarLoc] = true;
-                        }
-                    }
                     ActualizeazaGridVizual();
                     ActualizeazaAfisajLocuriDisponibile();
                 }
             }
-            catch 
+            catch
             {
                 // În caz de eroare la conexiunea inițială, aplicația va porni goală
                 // dar va funcționa local în regim offline
             }
         }
 
-        private void SalvareLocalaFallback(string nrInmatriculare, string tipEveniment)
+        // --- Implementare #4: buffer offline cu retry real ---
+        // Fiecare linie salvată conține tipul evenimentului + JSON-ul complet al camionului,
+        // nu doar text descriptiv, ca să poată fi retrimisă exact la reconectare.
+
+        private class BufferEntry
         {
-            string linie = $"{nrInmatriculare},{DateTime.Now:yyyy-MM-dd HH:mm:ss},{tipEveniment}\n";
-            File.AppendAllText(CaleFisierOffline, linie);
+            public string Tip { get; set; } = "";
+            public Camion? Date { get; set; }
+        }
+
+        private async Task SalvareLocalaFallbackAsync(string tipEveniment, Camion camion)
+        {
+            var entry = new BufferEntry { Tip = tipEveniment, Date = camion };
+            string linie = JsonSerializer.Serialize(entry) + Environment.NewLine;
+            try
+            {
+                await File.AppendAllTextAsync(CaleFisierOffline, linie);
+            }
+            catch
+            {
+                // dacă nici scrierea locală nu reușește (disc plin, permisiuni etc.),
+                // nu mai putem face nimic - operatorul a fost deja informat implicit
+                // prin faptul că bariera s-a acționat oricum (offline-first).
+            }
+        }
+
+        // Încearcă să retrimită tot ce e în offline_buffer.txt către API.
+        // Se apelează la pornirea aplicației; poate fi legată și de un Timer
+        // periodic dacă ai nevoie de sincronizare automată în timpul rulării.
+        private async Task SincronizeazaBufferOfflineAsync()
+        {
+            if (!File.Exists(CaleFisierOffline)) return;
+
+            string[] linii;
+            try
+            {
+                linii = await File.ReadAllLinesAsync(CaleFisierOffline);
+            }
+            catch
+            {
+                return;
+            }
+
+            if (linii.Length == 0) return;
+
+            var neretrimise = new List<string>();
+
+            foreach (var linie in linii)
+            {
+                if (string.IsNullOrWhiteSpace(linie)) continue;
+
+                bool trimisCuSucces = false;
+                try
+                {
+                    var entry = JsonSerializer.Deserialize<BufferEntry>(linie);
+                    if (entry?.Date != null)
+                    {
+                        string json = JsonSerializer.Serialize(entry.Date);
+                        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                        HttpResponseMessage response = entry.Tip == "INTRARE"
+                            ? await client.PostAsync($"{ApiUrl}/intrare", content)
+                            : await client.PutAsync($"{ApiUrl}/iesire", content);
+
+                        trimisCuSucces = response.IsSuccessStatusCode;
+                    }
+                }
+                catch
+                {
+                    trimisCuSucces = false;
+                }
+
+                if (!trimisCuSucces)
+                {
+                    neretrimise.Add(linie);
+                }
+            }
+
+            // Rescriem fișierul doar cu ce încă n-a plecat - astfel buffer-ul
+            // nu mai crește la infinit și nu mai pierdem intrări nereușite.
+            if (neretrimise.Count != linii.Length)
+            {
+                try
+                {
+                    await File.WriteAllLinesAsync(CaleFisierOffline, neretrimise);
+                }
+                catch
+                {
+                    // dacă rescrierea eșuează, la următoarea pornire se va încerca din nou
+                }
+            }
         }
     }
 }

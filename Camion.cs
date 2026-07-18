@@ -23,18 +23,40 @@ namespace TruckParkingManager
         public void FinalizeazaStationare(DateTime iesire)
         {
             DataIesire = iesire;
-            TimeSpan ts = iesire - DataIntrare;
+            DurataTotala = CalculeazaDurata(DataIntrare, iesire);
+        }
 
-            int totalZile = ts.Days;
-            int ore = ts.Hours;
-            int minute = ts.Minutes;
+        // Calcul pe bază de calendar real (ani/luni de lungime variabilă),
+        // în loc de aproximarea anterioară (zile / 30, zile / 365) care putea
+        // introduce erori de câteva zile în rapoartele de audit.
+        private static string CalculeazaDurata(DateTime start, DateTime end)
+        {
+            if (end < start)
+            {
+                return "0 ore, 0 min";
+            }
 
-            int ani = totalZile / 365;
-            int restZile = totalZile % 365;
-            int luni = restZile / 30;
-            restZile = restZile % 30;
-            int saptamani = restZile / 7;
-            int zile = restZile % 7;
+            int ani = 0;
+            int luni = 0;
+            DateTime cursor = start;
+
+            while (cursor.AddYears(1) <= end)
+            {
+                cursor = cursor.AddYears(1);
+                ani++;
+            }
+
+            while (cursor.AddMonths(1) <= end)
+            {
+                cursor = cursor.AddMonths(1);
+                luni++;
+            }
+
+            TimeSpan rest = end - cursor;
+            int saptamani = rest.Days / 7;
+            int zile = rest.Days % 7;
+            int ore = rest.Hours;
+            int minute = rest.Minutes;
 
             string rezultat = "";
             if (ani > 0) rezultat += $"{ani} ani, ";
@@ -43,7 +65,7 @@ namespace TruckParkingManager
             if (zile > 0) rezultat += $"{zile} zile, ";
             rezultat += $"{ore} ore, {minute} min";
 
-            DurataTotala = rezultat;
+            return rezultat;
         }
     }
 }
