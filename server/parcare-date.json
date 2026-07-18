@@ -1,0 +1,42 @@
+[
+  {
+    "NumarInmatriculare": "BN11SUS",
+    "Tara": "Rom\u00E2nia",
+    "DataIntrare": "2026-07-19T00:15:40",
+    "DataIesire": "2026-07-19T00:16:11",
+    "DurataTotala": "0 ore, 0 min",
+    "NumarLoc": 1
+  },
+  {
+    "NumarInmatriculare": "BN11SUS",
+    "Tara": "Rom\u00E2nia",
+    "DataIntrare": "2026-07-19T00:19:29.24859+03:00",
+    "DataIesire": null,
+    "DurataTotala": "-",
+    "NumarLoc": 1
+  },
+  {
+    "NumarInmatriculare": "CT69PUL",
+    "Tara": "Rom\u00E2nia",
+    "DataIntrare": "2026-07-19T00:30:35.0653955+03:00",
+    "DataIesire": "2026-07-19T00:31:21.0840966+03:00",
+    "DurataTotala": "0 ore, 0 min",
+    "NumarLoc": 1
+  },
+  {
+    "NumarInmatriculare": "BN11SUS",
+    "Tara": "Rom\u00E2nia",
+    "DataIntrare": "2026-07-19T00:34:56.0384798+03:00",
+    "DataIesire": "2026-07-19T00:35:09.3445611+03:00",
+    "DurataTotala": "0 ore, 0 min",
+    "NumarLoc": 1
+  },
+  {
+    "NumarInmatriculare": "BN69SEX",
+    "Tara": "Rom\u00E2nia",
+    "DataIntrare": "2026-07-19T00:35:58.1734609+03:00",
+    "DataIesire": null,
+    "DurataTotala": "-",
+    "NumarLoc": 1
+  }
+]
