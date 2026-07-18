@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Net.Http;
 using System.Text;
@@ -28,11 +29,16 @@ namespace TruckParkingManager
         private static readonly Regex FormatNumarInmatriculare =
             new Regex(@"^[A-Z]{1,2}\d{2,3}[A-Z]{3}$", RegexOptions.Compiled);
 
+        // Hartă vizuală a locurilor: index 1..CAPACITATE_MAXIMA, 0 neutilizat
+        private Panel[] locuriCelule = Array.Empty<Panel>();
+        private readonly ToolTip tipLocuri = new ToolTip();
+
         public FormMain()
         {
             InitializeComponent();
             client.Timeout = TimeSpan.FromSeconds(8);
             ConfigurareTabel();
+            ConfigureazaHartaLocuri();
             _ = InitializeazaAsync();
         }
 
@@ -103,6 +109,52 @@ namespace TruckParkingManager
             {
                 btnIntrare.Enabled = true;
                 btnIntrare.Text = "INTRARE";
+            }
+
+            ActualizeazaHartaLocuriVizual();
+        }
+
+        // --- Hartă vizuală a locurilor (2 coloane x N rânduri, verde/roșu) ---
+        // Construită o singură dată la pornire; culorile se actualizează
+        // din aceeași sursă de adevăr ca restul aplicației (GetLocuriOcupate).
+
+        private void ConfigureazaHartaLocuri()
+        {
+            const int coloane = 5;
+            const int dimensiuneCelula = 24;
+            const int spatiu = 3;
+
+            locuriCelule = new Panel[CAPACITATE_MAXIMA + 1];
+            pnlHarta.Controls.Clear();
+
+            for (int i = 1; i <= CAPACITATE_MAXIMA; i++)
+            {
+                int rand = (i - 1) / coloane;
+                int coloana = (i - 1) % coloane;
+
+                var celula = new Panel
+                {
+                    Width = dimensiuneCelula,
+                    Height = dimensiuneCelula,
+                    Location = new Point(coloana * (dimensiuneCelula + spatiu), rand * (dimensiuneCelula + spatiu)),
+                    BackColor = Color.ForestGreen,
+                    BorderStyle = BorderStyle.FixedSingle
+                };
+
+                tipLocuri.SetToolTip(celula, $"Loc {i}");
+
+                pnlHarta.Controls.Add(celula);
+                locuriCelule[i] = celula;
+            }
+        }
+
+        private void ActualizeazaHartaLocuriVizual()
+        {
+            var ocupate = GetLocuriOcupate();
+            for (int i = 1; i <= CAPACITATE_MAXIMA; i++)
+            {
+                if (locuriCelule[i] == null) continue;
+                locuriCelule[i].BackColor = ocupate.Contains(i) ? Color.Crimson : Color.ForestGreen;
             }
         }
 
