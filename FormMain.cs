@@ -7,7 +7,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ParcareCamioane
+namespace TruckParkingManager
 {
     public partial class FormMain : Form
     {
@@ -67,7 +67,7 @@ namespace ParcareCamioane
         private void ActualizeazaAfisajLocuriDisponibile()
         {
             int libere = GetLocuriLibere();
-            this.Text = $"Gestiune Parcare v2.0 - Locuri Libere: {libere} / {CAPACITATE_MAXIMA}";
+            this.Text = $"TruckParkingManager - Locuri Libere: {libere} / {CAPACITATE_MAXIMA}";
             
             if (libere <= 0)
             {

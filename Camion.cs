@@ -1,6 +1,6 @@
 using System;
 
-namespace ParcareCamioane
+namespace TruckParkingManager
 {
     public class Camion
     {

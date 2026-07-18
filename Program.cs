@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace ParcareCamioane
+namespace TruckParkingManager
 {
     static class Program
     {

@@ -27,15 +27,15 @@ Sistemul este împărțit în trei componente majore interconectate:
 ## 📂 Structura Proiectului
 
 ```text
-ParcareCamioane/
+TruckParkingManager/
 │
-├── 💻 ParcareCamioane.Client/       # Aplicația de la poartă (WinForms)
+├── 💻 TruckParkingManager.Client/       # Aplicația de la poartă (WinForms)
 │   ├── Program.cs                   # Punctul de pornire
 │   ├── Camion.cs                    # Modelul și algoritmul de timp
 │   ├── FormMain.cs                  # Logica din spatele ferestrei & Client API
 │   └── FormMain.Designer.cs         # Design-ul interfeței vizuale
 │
-├── ⚙️ ParcareCamioane.API/          # Serverul de Backend (ASP.NET Core)
+├── ⚙️ TruckParkingManager.API/          # Serverul de Backend (ASP.NET Core)
 │   ├── Controllers/                 # Endpoint-uri (Entry, Exit, Active)
 │   ├── Data/                        # AppDbContext (Conexiune SQL prin EF Core)
 │   └── Models/                      # Structura tabelelor din baza de date
