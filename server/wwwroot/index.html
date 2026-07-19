@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>TruckParkingManager - Situație Parcare</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <h1>🚚 Camioanele parcate </h1>
+    <div class="subtitlu">Se actualizează automat la fiecare 5 secunde</div>
+    <div class="contor" id="contor"></div>
+    <table>
+        <thead>
+            <tr>
+                <th>Număr Înmatriculare</th>
+                <th>Țară</th>
+                <th>Loc</th>
+                <th>Data Intrare</th>
+                <th>Timp în parcare</th>
+            </tr>
+        </thead>
+        <tbody id="corpTabel">
+            <tr><td colspan="5" class="gol">Se încarcă...</td></tr>
+        </tbody>
+    </table>
+
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

@@ -10,6 +10,10 @@ builder.WebHost.UseUrls("http://0.0.0.0:5000");
 
 var app = builder.Build();
 
+// Servește fișierele din wwwroot/ (index.html, css/, js/) - panoul vizual din browser
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 const string CaleDate = "parcare-date.json";
 var lockDate = new object();
 List<Camion> camioane = IncarcaDeLaDisc();
@@ -55,6 +59,8 @@ app.MapPut("/parcare/iesire", (Camion camion) =>
     return Results.Ok();
 });
 
+// Panoul vizual din browser e servit acum static din wwwroot/ (vezi app.UseStaticFiles() mai sus)
+
 // --- Pornire: afișăm IP-ul local direct în titlul ferestrei consolei ---
 
 string ipLocal = ObtineIpLocal();
@@ -63,6 +69,7 @@ Console.WriteLine("========================================");
 Console.WriteLine(" TruckParkingManager - Server pornit");
 Console.WriteLine($" Adresa pentru aplicațiile client: http://{ipLocal}:5000/parcare");
 Console.WriteLine(" (pune adresa asta în appsettings.json -> ApiUrl, pe fiecare PC client)");
+Console.WriteLine($" Panou vizual (browser): http://{ipLocal}:5000/");
 Console.WriteLine("========================================");
 
 app.Run();
