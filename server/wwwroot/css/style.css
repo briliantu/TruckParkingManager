@@ -1,0 +1,74 @@
+body {
+    background: #1e1e1e;
+    color: #eee;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 30px;
+}
+
+h1 {
+    margin: 0 0 4px 0;
+    font-size: 24px;
+}
+
+.subtitlu {
+    color: #999;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #2a2a2a;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid #3a3a3a;
+}
+
+th {
+    background: #333;
+    color: #bbb;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:hover td {
+    background: #333;
+}
+
+.gol {
+    text-align: center;
+    color: #888;
+    padding: 30px;
+    font-style: italic;
+}
+
+.loc {
+    display: inline-block;
+    background: #2e7d32;
+    color: white;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 13px;
+}
+
+.contor {
+    font-size: 14px;
+    color: #8fd694;
+    margin-bottom: 16px;
+}
+
+.eroare {
+    color: #e05c5c;
+}
