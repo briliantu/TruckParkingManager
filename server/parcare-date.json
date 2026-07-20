@@ -1,0 +1,34 @@
+[
+  {
+    "NumarInmatriculare": "BN11SUS",
+    "Tara": "Rom\u00E2nia",
+    "DataIntrare": "2026-07-19T10:27:55.7709133+03:00",
+    "DataIesire": null,
+    "DurataTotala": "-",
+    "NumarLoc": 1
+  },
+  {
+    "NumarInmatriculare": "BN23JRD",
+    "Tara": "Rom\u00E2nia",
+    "DataIntrare": "2026-07-19T10:52:23.1972383+03:00",
+    "DataIesire": null,
+    "DurataTotala": "-",
+    "NumarLoc": 1
+  },
+  {
+    "NumarInmatriculare": "IF123KF",
+    "Tara": "Italia",
+    "DataIntrare": "2026-07-19T10:52:54.7840289+03:00",
+    "DataIesire": null,
+    "DurataTotala": "-",
+    "NumarLoc": 2
+  },
+  {
+    "NumarInmatriculare": "CJ44FFF",
+    "Tara": "Rom\u00E2nia",
+    "DataIntrare": "2026-07-19T11:08:47.6813043+03:00",
+    "DataIesire": "2026-07-19T11:10:48.9107455+03:00",
+    "DurataTotala": "0 ore, 2 min",
+    "NumarLoc": 1
+  }
+]

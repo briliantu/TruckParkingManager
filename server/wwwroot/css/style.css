@@ -1,74 +1,491 @@
+:root {
+    --bg-dark: #121824;
+    --card-bg: #1e2738;
+    --navy-header: #002B49;
+    --green-accent: #2ecc71;
+    --red-accent: #e74c3c;
+    --blue-accent: #3498db;
+    --orange-accent: #f39c12;
+    --text-main: #e1e8f0;
+    --text-muted: #8a99ad;
+}
+
 body {
-    background: #1e1e1e;
-    color: #eee;
+    background: var(--bg-dark);
+    color: var(--text-main);
     font-family: 'Segoe UI', Arial, sans-serif;
     margin: 0;
-    padding: 30px;
+    padding: 0;
 }
 
-h1 {
-    margin: 0 0 4px 0;
-    font-size: 24px;
+.top-bar {
+    background: var(--navy-header);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
-.subtitlu {
-    color: #999;
-    margin-bottom: 20px;
-    font-size: 14px;
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo-img {
+    height: 40px;
+    background: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.logo-text {
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    letter-spacing: 2px;
+}
+
+.header-titles h1 {
+    font-size: 20px;
+    margin: 0;
+}
+
+.header-titles p {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin: 2px 0 0 0;
+}
+
+.live-indicator {
+    font-size: 13px;
+    color: var(--green-accent);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    background-color: var(--green-accent);
+    border-radius: 50%;
+    display: inline-block;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.3;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.3;
+    }
+}
+
+.container {
+    max-width: 1400px;
+    margin: 25px auto;
+    padding: 0 20px;
+}
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.card {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 8px;
+    border-top: 4px solid #777;
+}
+
+    .card.green {
+        border-color: var(--green-accent);
+    }
+
+    .card.red {
+        border-color: var(--red-accent);
+    }
+
+    .card.blue {
+        border-color: var(--blue-accent);
+    }
+
+    .card.orange {
+        border-color: var(--orange-accent);
+    }
+
+    .card h3 {
+        margin: 0 0 10px 0;
+        font-size: 13px;
+        color: var(--text-muted);
+        text-transform: uppercase;
+    }
+
+    .card .value {
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+    .toolbar h2, .table-section h2 {
+        font-size: 18px;
+        margin: 0;
+    }
+
+.btn {
+    padding: 9px 16px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-svg {
+    background: #8e44ad;
+    color: white;
+}
+
+.btn-csv {
+    background: #27ae60;
+    color: white;
+}
+
+.btn-warning {
+    background: #f39c12;
+    color: white;
+}
+
+.btn-danger {
+    background: #e74c3c;
+    color: white;
+}
+
+.btn:hover {
+    opacity: 0.85;
+}
+
+/* ======================================================== */
+/* PARCARE STRUCTURATĂ FIX - 10 LOCURI PER RÂND CU ASFALT  */
+/* ======================================================== */
+
+.real-parking-container {
+    background: #60a82f; /* Iarba verde perimetrală */
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+    margin-bottom: 30px;
+}
+
+.asphalt-road {
+    background: #494d54; /* Culoare asfalt gri-închis */
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* GRID FIX DE 10 COLOANE STRICTE */
+.parking-row {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 8px;
+}
+
+.top-slot {
+    height: 130px;
+    border-left: 2px solid #ffffff;
+    border-right: 2px solid #ffffff;
+    border-bottom: 3px solid #ffffff;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px;
+    background: rgba(0,0,0,0.12);
+    box-sizing: border-box;
+}
+
+.row-top .top-slot {
+    border-bottom: none;
+    border-top: 3px solid #ffffff;
+}
+
+.slot-label {
+    font-size: 10px;
+    font-weight: bold;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.65);
+    padding: 1px 5px;
+    border-radius: 3px;
+    z-index: 2;
+}
+
+.free-mark {
+    font-size: 16px;
+    font-weight: bold;
+    color: rgba(255,255,255,0.3);
+    margin: auto 0;
+    border: 2px solid rgba(255,255,255,0.25);
+    padding: 1px 6px;
+    border-radius: 3px;
+}
+
+/* DRUM / BANDA DE CIRCULAȚIE */
+.drive-lane {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+    padding: 8px 15px;
+    background: rgba(0,0,0,0.25);
+    border-radius: 4px;
+    border-top: 1px dashed rgba(255,255,255,0.3);
+    border-bottom: 1px dashed rgba(255,255,255,0.3);
+}
+
+.lane-arrow {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: bold;
+    opacity: 0.8;
+}
+
+.lane-text {
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    opacity: 0.65;
+}
+
+/* ======================================================== */
+/* CAMION GRAFIC TOP-VIEW OPTIMIZAT AȘEZARE STATICĂ        */
+/* ======================================================== */
+
+.truck-topview {
+    width: 100%;
+    max-width: 70px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    filter: drop-shadow(0px 3px 4px rgba(0,0,0,0.5));
+}
+
+.truck-cab {
+    width: 88%;
+    height: 32px;
+    background: #f0f3f4;
+    border-radius: 10px 10px 2px 2px;
+    border: 1px solid #bdc3c7;
+    position: relative;
+    box-sizing: border-box;
+}
+
+    /* Faruri */
+    .truck-cab::before {
+        content: '';
+        position: absolute;
+        top: 2px;
+        left: 3px;
+        width: 6px;
+        height: 3px;
+        background: #f1c40f;
+        border-radius: 1px;
+        box-shadow: 42px 0 0 #f1c40f;
+    }
+
+    /* Oglinzi */
+    .truck-cab::after {
+        content: '';
+        position: absolute;
+        top: 10px;
+        left: -4px;
+        width: 3px;
+        height: 8px;
+        background: #2c3e50;
+        border-radius: 1px;
+        box-shadow: 62px 0 0 #2c3e50;
+    }
+
+.truck-windshield {
+    width: 80%;
+    height: 10px;
+    background: #2c3e50;
+    border-radius: 3px 3px 1px 1px;
+    margin: 6px auto 0 auto;
+}
+
+.truck-body {
+    width: 96%;
+    height: 64px;
+    background: #8e9eab;
+    border: 1px solid #717d8a;
+    border-radius: 2px;
+    margin-top: 1px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2px;
+    box-sizing: border-box;
+}
+
+.truck-body-plate {
+    background: #ffffff;
+    color: #000000;
+    font-weight: 900;
+    font-size: 9px;
+    padding: 1px 3px;
+    border-radius: 2px;
+    border: 1px solid #333;
+    text-align: center;
+    max-width: 95%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.truck-body-country {
+    font-size: 7px;
+    color: #222;
+    font-weight: bold;
+    margin-top: 1px;
+}
+
+/* TABELE ŞI FILTRE ADMIN */
+.filters-bar {
+    background: var(--card-bg);
+    padding: 18px 20px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    border-left: 4px solid var(--blue-accent);
+}
+
+    .filters-bar h3 {
+        margin: 0 0 12px 0;
+        font-size: 15px;
+        color: var(--text-main);
+    }
+
+.filters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+}
+
+.filter-group label {
+    display: block;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+}
+
+.filter-group select, .filter-group input {
+    width: 100%;
+    padding: 8px;
+    background: #121824;
+    border: 1px solid #2c3a50;
+    color: white;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.table-section {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.table-container {
+    overflow-x: auto;
+    margin-top: 15px;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    background: #2a2a2a;
-    border-radius: 8px;
-    overflow: hidden;
 }
 
 th, td {
-    padding: 10px 14px;
+    padding: 12px 15px;
     text-align: left;
-    border-bottom: 1px solid #3a3a3a;
+    border-bottom: 1px solid #2c3a50;
 }
 
 th {
-    background: #333;
-    color: #bbb;
-    font-size: 13px;
+    background: #161e2e;
+    color: var(--text-muted);
+    font-size: 12px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-tr:last-child td {
-    border-bottom: none;
-}
-
-tr:hover td {
-    background: #333;
 }
 
 .gol {
     text-align: center;
-    color: #888;
-    padding: 30px;
-    font-style: italic;
+    color: var(--text-muted);
+    padding: 20px;
 }
 
-.loc {
-    display: inline-block;
-    background: #2e7d32;
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: var(--card-bg);
+    padding: 25px;
+    border-radius: 8px;
+    width: 320px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 4px;
+    color: var(--text-muted);
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    background: #121824;
+    border: 1px solid #2c3a50;
     color: white;
     border-radius: 4px;
-    padding: 2px 8px;
-    font-size: 13px;
+    box-sizing: border-box;
 }
 
-.contor {
-    font-size: 14px;
-    color: #8fd694;
-    margin-bottom: 16px;
-}
-
-.eroare {
-    color: #e05c5c;
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
 }

@@ -1,0 +1,4 @@
+2026-07-20 08:59:04 | INTRARE | Nr: CJ12ABC | Tara: România | Loc: 1 | Intrare: 2026-07-20 08:59:01 | Iesire: - | Durata: -
+2026-07-20 09:00:15 | IESIRE | Nr: CJ12ABC | Tara: România | Loc: 1 | Intrare: 2026-07-20 08:59:01 | Iesire: 2026-07-20 09:00:13 | Durata: 0 ore, 1 min
+2026-07-20 09:01:56 | INTRARE | Nr: IF222KF | Tara: Italia | Loc: 1 | Intrare: 2026-07-20 09:01:55 | Iesire: - | Durata: -
+2026-07-20 09:12:49 | IESIRE | Nr: IF222KF | Tara: Italia | Loc: 1 | Intrare: 2026-07-20 09:01:55 | Iesire: 2026-07-20 09:12:48 | Durata: 0 ore, 10 min

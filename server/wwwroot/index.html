@@ -2,28 +2,194 @@
 <html lang="ro">
 <head>
     <meta charset="UTF-8">
-    <title>TruckParkingManager - Situație Parcare</title>
+    <title>De'Longhi - Dashboard Parcare Camioane</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <h1>🚚 Camioanele parcate </h1>
-    <div class="subtitlu">Se actualizează automat la fiecare 5 secunde</div>
-    <div class="contor" id="contor"></div>
-    <table>
-        <thead>
-            <tr>
-                <th>Număr Înmatriculare</th>
-                <th>Țară</th>
-                <th>Loc</th>
-                <th>Data Intrare</th>
-                <th>Timp în parcare</th>
-            </tr>
-        </thead>
-        <tbody id="corpTabel">
-            <tr><td colspan="5" class="gol">Se încarcă...</td></tr>
-        </tbody>
-    </table>
+
+    <!-- HEADER / BRANDING DE'LONGHI CU LOGIN ADMIN -->
+    <header class="top-bar">
+        <div class="brand">
+            <img src="images/delonghi.png" alt="De'Longhi" class="logo-img" onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='inline-block';">
+            <span id="logo-fallback" class="logo-text" style="display:none;">DE'LONGHI</span>
+            <div class="header-titles">
+                <h1>Truck Parking Manager</h1>
+                <p>Panou Control & Monitorizare Admin</p>
+            </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:15px;">
+            <div class="live-indicator"><span class="dot"></span> Live</div>
+            <button id="btnLogin" onclick="deschideModalLogin()" class="btn btn-warning" style="font-size:12px; padding:5px 12px;">🔑 Login Admin</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- DASHBOARD KPI CARDURI -->
+        <section class="kpi-grid">
+            <div class="card green">
+                <h3>Locuri Libere</h3>
+                <div class="value" id="kpiLibere">--</div>
+            </div>
+            <div class="card red">
+                <h3>Locuri Ocupate</h3>
+                <div class="value" id="kpiOcupate">--</div>
+            </div>
+            <div class="card blue">
+                <h3>Capacitate Totală</h3>
+                <div class="value" id="kpiTotal">50</div>
+            </div>
+            <div class="card orange">
+                <h3>Total Cumulat Intrări</h3>
+                <div class="value" id="kpiCumulat">--</div>
+            </div>
+        </section>
+
+        <!-- TOOLBAR ACTIUNI -->
+        <section class="toolbar">
+            <h2>Harta Realistă Parcare Camioane (Top View)</h2>
+            <div class="buttons">
+                <button onclick="exportToSVG()" class="btn btn-svg">📥 Export SVG</button>
+                <button onclick="exportToCSV()" class="btn btn-csv">📊 Export CSV</button>
+                <span id="adminControls" style="display: none;">
+                    <button onclick="curataCamioaneActive()" class="btn btn-danger">🧹 Clear Active Logs</button>
+                </span>
+            </div>
+        </section>
+
+        <!-- HARTA REALISTĂ: RÂNDURI DE CÂTE 10 LOCURI CU BANDELE A, B, C -->
+        <section class="real-parking-container">
+            <div class="asphalt-road">
+                <!-- RÂNDUL 1 (01 - 10) -->
+                <div class="parking-row row-top" id="parkingRow1"></div>
+
+                <!-- DRUM / BANDA A -->
+                <div class="drive-lane">
+                    <span class="lane-arrow">➔</span>
+                    <span class="lane-arrow">➔</span>
+                    <span class="lane-arrow">➔</span>
+                    <span class="lane-text">BANDA A - SENS UNIC CIRCULAȚIE</span>
+                </div>
+
+                <!-- RÂNDUL 2 (11 - 20) -->
+                <div class="parking-row" id="parkingRow2"></div>
+
+                <!-- RÂNDUL 3 (21 - 30) -->
+                <div class="parking-row row-top" id="parkingRow3"></div>
+
+                <!-- DRUM / BANDA B -->
+                <div class="drive-lane">
+                    <span class="lane-arrow">⬅</span>
+                    <span class="lane-arrow">⬅</span>
+                    <span class="lane-arrow">⬅</span>
+                    <span class="lane-text">BANDA B - SENS UNIC CIRCULAȚIE</span>
+                </div>
+
+                <!-- RÂNDUL 4 (31 - 40) -->
+                <div class="parking-row" id="parkingRow4"></div>
+
+                <!-- RÂNDUL 5 (41 - 50) -->
+                <div class="parking-row row-top" id="parkingRow5"></div>
+
+                <!-- DRUM / BANDA C (NOU - SUB SECTORUL 5) -->
+                <div class="drive-lane">
+                    <span class="lane-arrow">➔</span>
+                    <span class="lane-arrow">➔</span>
+                    <span class="lane-arrow">➔</span>
+                    <span class="lane-text">BANDA C - IEȘIRE PRINCIPALĂ / SENS UNIC</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- BARA DE FILTRE PENTRU ADMIN -->
+        <section id="filterSection" class="filters-bar" style="display:none;">
+            <h3>🔍 Filtrare Căutare Camioane (Admin)</h3>
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label>Țară Camion:</label>
+                    <select id="filtruTara" onchange="aplicaFiltre()">
+                        <option value="">Toate Țările</option>
+                        <option value="România">România</option>
+                        <option value="Spania">Spania</option>
+                        <option value="Germania">Germania</option>
+                        <option value="Italia">Italia</option>
+                        <option value="Bulgaria">Bulgaria</option>
+                        <option value="Turcia">Turcia</option>
+                        <option value="Republica Moldova">Republica Moldova</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>De La Data:</label>
+                    <input type="date" id="filtruDataStart" onchange="aplicaFiltre()">
+                </div>
+                <div class="filter-group">
+                    <label>Până La Data:</label>
+                    <input type="date" id="filtruDataEnd" onchange="aplicaFiltre()">
+                </div>
+                <div class="filter-group" style="align-self: flex-end;">
+                    <button onclick="reseteazaFiltre()" class="btn btn-warning" style="width: 100%;">🔄 Resetează Filtre</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TABEL CAMIOANE ACTIVE -->
+        <section class="table-section">
+            <h2>Camioane Parcate în Prezent</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Loc Parcare</th>
+                            <th>Număr Înmatriculare</th>
+                            <th>Țară</th>
+                            <th>Dată Intrare</th>
+                            <th>Timp Staționat (Live)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpTabel">
+                        <tr><td colspan="5" class="gol">Se încarcă datele...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- TABEL ISTORIC COMPLEAT (RESTRICȚIONAT ADMIN) -->
+        <section id="historySection" class="table-section" style="margin-top: 25px; display: none;">
+            <h2>📜 Istoric Compleat Parcare (History Logs)</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Loc</th>
+                            <th>Număr Înmatriculare</th>
+                            <th>Țară</th>
+                            <th>Intrare</th>
+                            <th>Ieșire</th>
+                            <th>Durată Totală</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpTabelIstoric">
+                        <tr><td colspan="6" class="gol">Se încarcă istoricul...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <!-- MODAL LOGIN ADMIN -->
+    <div id="modalLogin" class="modal" style="display:none;">
+        <div class="modal-content">
+            <h3 style="margin-top:0;">Autentificare Administrator</h3>
+            <div class="form-group">
+                <label>Parolă Admin:</label>
+                <input type="password" id="inputParolaAdmin" placeholder="Introdu parola (***)" onkeyup="if(event.key==='Enter') executaLoginAdmin()">
+            </div>
+            <div class="modal-actions" style="margin-top:15px;">
+                <button onclick="executaLoginAdmin()" class="btn btn-warning">Login</button>
+                <button onclick="inchideModalLogin()" class="btn">Anulează</button>
+            </div>
+        </div>
+    </div>
 
     <script src="js/dashboard.js"></script>
 </body>

@@ -1,0 +1,16 @@
+C:\Users\Raul\source\repos\TruckParkingManager\client\bin\Debug\net8.0-windows\appsettings.json
+C:\Users\Raul\source\repos\TruckParkingManager\client\bin\Debug\net8.0-windows\TruckParkingManager.exe
+C:\Users\Raul\source\repos\TruckParkingManager\client\bin\Debug\net8.0-windows\TruckParkingManager.deps.json
+C:\Users\Raul\source\repos\TruckParkingManager\client\bin\Debug\net8.0-windows\TruckParkingManager.runtimeconfig.json
+C:\Users\Raul\source\repos\TruckParkingManager\client\bin\Debug\net8.0-windows\TruckParkingManager.dll
+C:\Users\Raul\source\repos\TruckParkingManager\client\bin\Debug\net8.0-windows\TruckParkingManager.pdb
+C:\Users\Raul\source\repos\TruckParkingManager\client\obj\Debug\net8.0-windows\TruckParkingManager.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Raul\source\repos\TruckParkingManager\client\obj\Debug\net8.0-windows\TruckParkingManager.AssemblyInfoInputs.cache
+C:\Users\Raul\source\repos\TruckParkingManager\client\obj\Debug\net8.0-windows\TruckParkingManager.AssemblyInfo.cs
+C:\Users\Raul\source\repos\TruckParkingManager\client\obj\Debug\net8.0-windows\TruckParkingManager.csproj.CoreCompileInputs.cache
+C:\Users\Raul\source\repos\TruckParkingManager\client\obj\Debug\net8.0-windows\TruckParkingManager.sourcelink.json
+C:\Users\Raul\source\repos\TruckParkingManager\client\obj\Debug\net8.0-windows\TruckParkingManager.dll
+C:\Users\Raul\source\repos\TruckParkingManager\client\obj\Debug\net8.0-windows\refint\TruckParkingManager.dll
+C:\Users\Raul\source\repos\TruckParkingManager\client\obj\Debug\net8.0-windows\TruckParkingManager.pdb
+C:\Users\Raul\source\repos\TruckParkingManager\client\obj\Debug\net8.0-windows\TruckParkingManager.genruntimeconfig.cache
+C:\Users\Raul\source\repos\TruckParkingManager\client\obj\Debug\net8.0-windows\ref\TruckParkingManager.dll
