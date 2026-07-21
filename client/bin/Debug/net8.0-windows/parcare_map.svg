@@ -1,0 +1,254 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='1000' height='700' style='background:#f4f7f6; font-family:Arial;'>
+<text x='20' y='40' font-size='22' font-weight='bold' fill='#002B49'>De'Longhi - Harta Parcare Camioane</text>
+<text x='20' y='65' font-size='13' fill='#555'>Data Export: 20/07/2026 14:08:49 | Total Cumulat Intrari: 10</text>
+<g transform='translate(20, 90)'>
+  <rect width='175' height='80' rx='6' fill='#E74C3C' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #01</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>BN55SOS</text>
+</g>
+<g transform='translate(210, 90)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #02</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(400, 90)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #03</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(590, 90)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #04</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(780, 90)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #05</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(20, 185)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #06</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(210, 185)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #07</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(400, 185)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #08</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(590, 185)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #09</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(780, 185)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #10</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(20, 280)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #11</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(210, 280)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #12</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(400, 280)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #13</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(590, 280)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #14</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(780, 280)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #15</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(20, 375)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #16</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(210, 375)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #17</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(400, 375)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #18</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(590, 375)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #19</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(780, 375)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #20</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(20, 470)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #21</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(210, 470)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #22</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(400, 470)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #23</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(590, 470)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #24</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(780, 470)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #25</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(20, 565)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #26</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(210, 565)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #27</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(400, 565)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #28</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(590, 565)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #29</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(780, 565)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #30</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(20, 660)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #31</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(210, 660)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #32</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(400, 660)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #33</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(590, 660)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #34</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(780, 660)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #35</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(20, 755)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #36</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(210, 755)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #37</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(400, 755)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #38</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(590, 755)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #39</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(780, 755)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #40</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(20, 850)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #41</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(210, 850)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #42</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(400, 850)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #43</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(590, 850)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #44</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(780, 850)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #45</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(20, 945)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #46</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(210, 945)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #47</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(400, 945)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #48</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(590, 945)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #49</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+<g transform='translate(780, 945)'>
+  <rect width='175' height='80' rx='6' fill='#2ECC71' stroke='#333' stroke-width='1' />
+  <text x='12' y='28' fill='#fff' font-weight='bold' font-size='16'>LOC #50</text>
+  <text x='12' y='55' fill='#fff' font-size='14'>LIBER</text>
+</g>
+</svg>

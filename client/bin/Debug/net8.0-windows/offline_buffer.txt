@@ -1,0 +1,4 @@
+2026-07-20 13:35:21 | IESIRE | Nr: BN12DFF | Tara: România | Loc: 1 | Intrare: 2026-07-20 13:32:09 | Iesire: 2026-07-20 13:35:20 | Durata: 0 ore, 3 min
+2026-07-20 13:49:19 | IESIRE | Nr: BN12ADF | Tara: România | Loc: 1 | Intrare: 2026-07-20 13:45:15 | Iesire: 2026-07-20 13:49:17 | Durata: 0 ore, 4 min
+2026-07-20 20:42:44 | INTRARE | Nr: BN12ABC | Tara: România | Loc: 1 | Intrare: 2026-07-20 20:42:38 | Iesire: - | Durata: -
+2026-07-20 20:45:31 | IESIRE | Nr: BN12ABC | Tara: România | Loc: 1 | Intrare: 2026-07-20 20:42:38 | Iesire: 2026-07-20 20:45:26 | Durata: 0 ore, 2 min

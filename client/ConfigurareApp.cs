@@ -9,7 +9,7 @@ namespace TruckParkingManager
 	// iar aplicația tot pornește (nu blochează operatorul de la poartă).
 	public class ConfigurareApp
 	{
-		public string ApiUrl { get; set; } = "http://apiurl/parcare";
+		public string ApiUrl { get; set; } = "http://192.168.0.104:5000/parcare";
 		public int CapacitateMaxima { get; set; } = 50;
 
 		private const string CaleConfig = "appsettings.json";
