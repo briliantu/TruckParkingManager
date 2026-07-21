@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\client",
+    "\\server",
+    "\\server\\wwwroot",
+    "\\server\\wwwroot\\css",
+    "\\server\\wwwroot\\js"
+  ],
+  "SelectedNode": "\\client\\Program.cs",
+  "PreviewInSolutionExplorer": false
+}
